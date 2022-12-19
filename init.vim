@@ -6,6 +6,7 @@ let mapleader = " "
 "you know what these do
 set guicursor=i:block
 set belloff=all
+set nu
 set relativenumber
 
 "backup settings for vim
@@ -132,3 +133,5 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-java'
             \ ]
+
+let g:copilot_node_command = "~/.nvm/versions/node/v16.18.0/bin/node"
