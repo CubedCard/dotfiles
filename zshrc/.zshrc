@@ -120,3 +120,7 @@ export NVM_DIR="$HOME/.nvm"
     [ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+eval "$(pyenv init -)"
+

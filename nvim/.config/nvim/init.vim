@@ -135,3 +135,14 @@ let g:coc_global_extensions = [
             \ ]
 
 let g:copilot_node_command = "~/.nvm/versions/node/v16.18.0/bin/node"
+
+let g:Tex_IgnoredWarnings = 
+    \'Underfull'."\n".
+    \'Overfull'."\n".
+    \'specifier changed to'."\n".
+    \'You have requested'."\n".
+    \'Missing number, treated as zero.'."\n".
+    \'There were undefined references'."\n".
+    \'Citation %.%# undefined'."\n".
+    \'Double space found.'."\n"
+let g:Tex_IgnoreLevel = 8
