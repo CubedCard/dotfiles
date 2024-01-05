@@ -1,3 +1,3 @@
 ctrl - t : open -a Terminal
-ctrl + cmd - a : open -a Terminal; open -a "Brave Browser"; 
+ctrl + alt - a : open -a Terminal; open -a "Brave Browser"; 
 ctrl - n : open -a Terminal; sh $HOME/Documents/coding/overig/notetaker/run
