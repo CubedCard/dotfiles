@@ -1,3 +1,4 @@
 ctrl - t : open -a Terminal
 ctrl + alt - a : open -a Terminal; open -a "Brave Browser"; 
 ctrl - n : open -a Terminal; sh $HOME/Documents/coding/overig/notetaker/run
+ctrl + alt - q : osascript $HOME/Documents/coding/overig/automations/random/close.scpt
