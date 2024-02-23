@@ -115,6 +115,11 @@ alias view="latex thesis.tex ; pdflatex thesis.tex ; rm *.out ; rm *.log ; rm *.
 alias viewopen="view; open thesis.pdf"
 alias note="sh $HOME/Documents/coding/overig/notetaker/notetaker"
 
+alias newlc="python3 $HOME/Documents/coding/overig/automations/leetcode/new_leetcode.py"
+alias sortlc="python3 $HOME/Documents/coding/overig/automations/leetcode/leetcode_sorter.py"
+
+alias sorter="$HOME/Documents/coding/overig/automations/notes/downloads_sorter.sh"
+
 export NVM_DIR="$HOME/.nvm"
     [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # This loads nvm
     [ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
@@ -123,4 +128,3 @@ export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 eval "$(pyenv init -)"
-
