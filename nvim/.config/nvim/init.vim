@@ -1,148 +1,336 @@
+"===============================
+" BASIC SETTINGS
+"===============================
+set nocompatible
 syntax on
+filetype plugin indent on
 
-"leader key
-let mapleader = " "
+let mapleader=" "
 
-"you know what these do
+" UI
 set guicursor=i:block
 set belloff=all
-set nu
+set number
 set relativenumber
-
-"backup settings for vim
-set backupdir=/tmp 
-set directory=~/.vim/tmp
-set backup
-
-"tabs
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set smartindent
-
-"scroll and sides logic 
-set sidescrolloff=8
-set scrolloff=8
 set cursorline
 set signcolumn=yes
 set textwidth=120
 set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-"no continuous commenting
-set formatoptions-=cro
+" Tabs & Indentation
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set smartindent
 
-"files
+" Scrolling
+set scrolloff=8
+set sidescrolloff=8
+
+" Wrapping
+set nowrap
+
+" File handling
 set undofile
 set noswapfile
+set backup
+set backupdir=/tmp
+set directory=~/.vim/tmp
+set nomodeline
 
-"search
+" Search
 set showmatch
 set ignorecase
 set smartcase
 set nohlsearch
 set incsearch
 
-"autocomplete in command line
+" Autocompletion (command line)
 set wildmenu
 
-"wrapping logic
-set nowrap
+" Disable automatic comments
+set formatoptions-=cro
 
-"remap for Goyo
-nnoremap <leader>g :Goyo<CR>
+" Backspace
+set backspace=indent,eol,start
 
-"yank the line in the clipboard
-vnoremap <leader>y "*y
-vnoremap <leader>p "*p
-
+"===============================
+" PLUGINS
+"===============================
 call plug#begin('~/.vim/plugged')
 
-Plug 'junegunn/goyo.vim'
-Plug 'preservim/nerdtree'
-Plug 'ThePrimeagen/vim-be-good'
+" UI & Visual
 Plug 'sainnhe/sonokai'
 Plug 'morhetz/gruvbox'
-Plug 'lervag/vimtex'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/goyo.vim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lua/plenary.nvim'
+
+" Treesitter & LSP
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'neovim/nvim-lspconfig'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Fun
+Plug 'alec-gibson/nvim-tetris'
+Plug 'eandrju/cellular-automaton.nvim'
+Plug 'm4xshen/hardtime.nvim'
+Plug 'ThePrimeagen/vim-be-good'
+
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'                      " Completion engine
+Plug 'hrsh7th/cmp-nvim-lsp'                  " LSP source
+Plug 'hrsh7th/cmp-buffer'                    " Buffer source
+Plug 'hrsh7th/cmp-path'                      " Path completion
+Plug 'hrsh7th/cmp-cmdline'                   " Cmdline completion
+Plug 'L3MON4D3/LuaSnip'                      " Snippet engine
+Plug 'saadparwaiz1/cmp_luasnip'              " Snippet completion source
 
 call plug#end()
 
-"colorscheme for html should be different
-autocmd BufEnter * colorscheme gruvbox
-autocmd BufEnter *.html colorscheme sonokai 
-
-"colorscheme logic
-colorscheme gruvbox
+"===============================
+" COLORSCHEME
+"===============================
 set background=dark
 let g:gruvbox_italic=1
 
-"preferred remaps 
+augroup ColorSchemeOverride
+  autocmd!
+  autocmd FileType html colorscheme sonokai
+  autocmd FileType * colorscheme gruvbox
+augroup END
+
+"===============================
+" KEYBINDINGS
+"===============================
+
+" Insert mode escape
 inoremap jj <esc>
-nnoremap <C-p> :NERDTree <CR>
 
-"do not run everything
-set nomodeline
+" NERDTree toggle
+nnoremap <C-p> :NERDTree<CR>
 
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" Goyo toggle
+nnoremap <leader>g :Goyo<CR>
 
-"LSP config
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> <C-b> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+" Paste system clipboard
+nnoremap <C-v> "+p
+vnoremap <leader>y "*y
+vnoremap <leader>p "*p
 
-" npm i -g pyright
-lua require('lspconfig').pyright.setup{}
-" npm i -g type
-lua require('lspconfig').tsserver.setup{}
-" npm install -g @angular/language-server
-lua require('lspconfig').angularls.setup{}
-" brew install gopls
-lua require('lspconfig').gopls.setup{}
-" npm i -g vscode-langservers-extracted
-lua require('lspconfig').html.setup{}
-lua require('lspconfig').cssls.setup{}
-lua require('lspconfig').jsonls.setup{}
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<CR>
+nnoremap <leader>fg <cmd>Telescope live_grep<CR>
+nnoremap <leader>fb <cmd>Telescope buffers<CR>
+nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 
-"lua require('lspconfig').jdtls.setup{}
+" Cellular Automaton
+nnoremap <leader>fml <cmd>CellularAutomaton make_it_rain<CR>
+nnoremap <leader>gol <cmd>CellularAutomaton game_of_life<CR>
 
-"COC settings
-set backspace=indent,eol,start
+" Dotnet CLI shortcuts
+command! DotnetBuild :!dotnet build
+command! DotnetRun :!dotnet run
+command! DotnetTest :!dotnet test
+nnoremap <leader>db :DotnetBuild<CR>
+nnoremap <leader>dr :DotnetRun<CR>
+nnoremap <leader>dt :DotnetTest<CR>
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+"===============================
+" LSP CONFIGURATION
+"===============================
+lua << EOF
+local lspconfig = require('lspconfig')
 
-let g:coc_global_extensions = [
-            \ 'coc-snippets',
-            \ 'coc-pairs',
-            \ 'coc-json',
-            \ 'coc-java'
-            \ ]
+-- Setup language servers
+lspconfig.pyright.setup{}
+lspconfig.angularls.setup{}
+lspconfig.gopls.setup{}
+lspconfig.html.setup{}
+lspconfig.cssls.setup{}
+lspconfig.jsonls.setup{}
+lspconfig.omnisharp.setup{
+  cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+}
 
-let g:copilot_node_command = "~/.nvm/versions/node/v16.18.0/bin/node"
+-- Key mappings for LSP
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {silent=true})
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {silent=true})
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, {silent=true})
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {silent=true})
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, {silent=true})
+vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, {silent=true})
+vim.keymap.set('n', '<C-n>', vim.diagnostic.goto_prev, {silent=true})
+vim.keymap.set('n', '<C-b>', vim.diagnostic.goto_next, {silent=true})
+EOF
 
-let g:Tex_IgnoredWarnings = 
-    \'Underfull'."\n".
-    \'Overfull'."\n".
-    \'specifier changed to'."\n".
-    \'You have requested'."\n".
-    \'Missing number, treated as zero.'."\n".
-    \'There were undefined references'."\n".
-    \'Citation %.%# undefined'."\n".
-    \'Double space found.'."\n"
-let g:Tex_IgnoreLevel = 8
+"===============================
+" TREESITTER CONFIG
+"===============================
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"c_sharp", "html", "css", "json"},
+  highlight = { enable = true }
+}
+EOF
+
+lua << EOF
+-- Setup nvim-cmp
+local cmp = require'cmp'
+local luasnip = require'luasnip'
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' }
+  }, {
+    { name = 'buffer' },
+    { name = 'path' }
+  })
+})
+
+-- `/` cmdline completion
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- `:` cmdline completion
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- Attach LSP capabilities to nvim-cmp
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local lspconfig = require('lspconfig')
+
+local servers = { 'pyright', 'angularls', 'gopls', 'html', 'cssls', 'jsonls', 'omnisharp' }
+
+for _, server in ipairs(servers) do
+  lspconfig[server].setup {
+    capabilities = capabilities
+  }
+end
+EOF
+
+"===============================
+" AUTOCOMPLETION CONFIG 
+"===============================
+
+lua << EOF
+-- Setup nvim-cmp
+local cmp = require'cmp'
+local luasnip = require'luasnip'
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' }
+  }, {
+    { name = 'buffer' },
+    { name = 'path' }
+  })
+})
+
+-- `/` cmdline completion
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- `:` cmdline completion
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- Attach LSP capabilities to nvim-cmp
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local lspconfig = require('lspconfig')
+
+local servers = { 'pyright', 'angularls', 'gopls', 'html', 'cssls', 'jsonls', 'omnisharp' }
+
+for _, server in ipairs(servers) do
+  lspconfig[server].setup {
+    capabilities = capabilities
+  }
+end
+EOF
+
+"===============================
+" HARDTIME CONFIG
+"===============================
+lua << EOF
+require('hardtime').setup()
+EOF
