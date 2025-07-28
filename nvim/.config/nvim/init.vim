@@ -5,7 +5,7 @@ set nocompatible
 syntax on
 filetype plugin indent on
 
-let mapleader=" "
+let mapleader = " "
 
 " UI
 set guicursor=i:block
@@ -73,6 +73,10 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'neovim/nvim-lspconfig'
 
+" Markdown support
+Plug 'preservim/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
+
 " Fun
 Plug 'alec-gibson/nvim-tetris'
 Plug 'eandrju/cellular-automaton.nvim'
@@ -94,7 +98,7 @@ call plug#end()
 " COLORSCHEME
 "===============================
 set background=dark
-let g:gruvbox_italic=1
+let g:gruvbox_italic = 1
 
 augroup ColorSchemeOverride
   autocmd!
@@ -105,7 +109,6 @@ augroup END
 "===============================
 " KEYBINDINGS
 "===============================
-
 " Insert mode escape
 inoremap jj <esc>
 
@@ -139,6 +142,15 @@ nnoremap <leader>dr :DotnetRun<CR>
 nnoremap <leader>dt :DotnetTest<CR>
 
 "===============================
+" MARKDOWN SETTINGS
+"===============================
+let g:vim_markdown_folding_level = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:mkdp_auto_start = 0
+autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<CR>
+
+"===============================
 " LSP CONFIGURATION
 "===============================
 lua << EOF
@@ -154,6 +166,8 @@ lspconfig.jsonls.setup{}
 lspconfig.omnisharp.setup{
   cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
 }
+-- Markdown LSP
+lspconfig.marksman.setup{}
 
 -- Key mappings for LSP
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {silent=true})
@@ -171,89 +185,14 @@ EOF
 "===============================
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"c_sharp", "html", "css", "json"},
+  ensure_installed = {"c_sharp", "html", "css", "json", "markdown", "markdown_inline"},
   highlight = { enable = true }
 }
-EOF
-
-lua << EOF
--- Setup nvim-cmp
-local cmp = require'cmp'
-local luasnip = require'luasnip'
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' }
-  }, {
-    { name = 'buffer' },
-    { name = 'path' }
-  })
-})
-
--- `/` cmdline completion
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- `:` cmdline completion
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
-
--- Attach LSP capabilities to nvim-cmp
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-local lspconfig = require('lspconfig')
-
-local servers = { 'pyright', 'angularls', 'gopls', 'html', 'cssls', 'jsonls', 'omnisharp' }
-
-for _, server in ipairs(servers) do
-  lspconfig[server].setup {
-    capabilities = capabilities
-  }
-end
 EOF
 
 "===============================
 " AUTOCOMPLETION CONFIG 
 "===============================
-
 lua << EOF
 -- Setup nvim-cmp
 local cmp = require'cmp'
@@ -319,7 +258,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require('lspconfig')
 
-local servers = { 'pyright', 'angularls', 'gopls', 'html', 'cssls', 'jsonls', 'omnisharp' }
+local servers = { 'pyright', 'angularls', 'gopls', 'html', 'cssls', 'jsonls', 'omnisharp', 'marksman' }
 
 for _, server in ipairs(servers) do
   lspconfig[server].setup {
@@ -334,3 +273,4 @@ EOF
 lua << EOF
 require('hardtime').setup()
 EOF
+
