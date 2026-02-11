@@ -104,8 +104,6 @@ colorscheme gruvbox
 "===============================
 " KEYBINDINGS
 "===============================
-" Insert mode escape
-inoremap jj <esc>
 
 " NERDTree toggle
 nnoremap <C-p> :NERDTree<CR>
