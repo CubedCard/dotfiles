@@ -166,17 +166,10 @@ require('lazy').setup({
 })
 
 -----------------------------------------------------
--- Colorscheme
------------------------------------------------------
-
------------------------------------------------------
 -- Keymaps
 -----------------------------------------------------
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
-
--- Insert mode escape
-map('i', 'jj', '<Esc>', opts)
 
 -- System clipboard helpers
 map('n', '<C-v>', '"+p', opts)
