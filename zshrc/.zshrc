@@ -38,6 +38,7 @@ alias note="sh $HOME/Documents/coding/overig/notetaker/notetaker"
 alias newlc="python3 $HOME/Documents/coding/overig/automations/leetcode/new_leetcode.py"
 alias sortlc="python3 $HOME/Documents/coding/overig/automations/leetcode/leetcode_sorter.py"
 alias sorter="$HOME/Documents/coding/overig/automations/notes/downloads_sorter.sh"
+alias flip="$HOME/Documents/coding/other/flip/flip.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
