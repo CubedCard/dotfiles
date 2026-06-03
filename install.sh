@@ -42,6 +42,13 @@ else
     ln -sf ~/dotfiles/nvim/.config/nvim ~/.config/nvim
 fi
 
+# fastfetch: link the whole config directory
+if [ -L ~/.config/fastfetch ]; then
+    echo "     fastfetch symlink already exists, skipping"
+else
+    ln -sf ~/dotfiles/fastfetch/.config/fastfetch ~/.config/fastfetch
+fi
+
 echo ""
 echo "Done! Next steps:"
 echo "  1. Restart your shell or run: source ~/.zshrc"
