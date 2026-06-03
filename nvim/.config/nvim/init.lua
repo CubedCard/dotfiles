@@ -1,50 +1,48 @@
--- 1. Basic Settings
 vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
+vim.opt.signcolumn = "yes"
+vim.opt.tabstop = 4
+vim.opt.smartindent = true
+vim.opt.wrap = false
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undofile = true
+vim.opt.scrolloff = 8
+vim.opt.colorcolumn = "100"
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.clipboard = "unnamedplus"
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.updatetime = 250
 
--- 2. Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+    vim.fn.system({
+        "git", "clone", "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- 3. Load Plugins
-require("lazy").setup({
-    { "ellisonleao/gruvbox.nvim", priority = 1000 },
-    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-    { "neovim/nvim-lspconfig" },
-})
+require("lazy").setup("plugins", { change_detection = { notify = false } })
 
--- 4. Apply Theme
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd.colorscheme("gruvbox")
 
--- 5. Treesitter Setup (Safely wrapped)
-local status, ts = pcall(require, "nvim-treesitter.configs")
-if status then
-    ts.setup({
-        ensure_installed = { "lua", "vim", "vimdoc", "go", "python" },
-        highlight = { enable = true },
-    })
-end
+vim.keymap.set("n", "<C-p>", ":Lex 30<CR>", { silent = true })
 
--- 6. Keybindings
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-
--- Sidebar Menu (Ctrl-p) using the built-in Lex (Netrw)
--- This is faster and requires zero plugins
-vim.keymap.set('n', '<C-p>', ':Lex 30<CR>', { silent = true })
-
--- 7. LSP Auto-attach
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(ev)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf })
-    end,
-})
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
