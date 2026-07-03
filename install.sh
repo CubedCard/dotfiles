@@ -19,6 +19,9 @@ brew install xh jq
 # Shell plugins
 brew install zsh-autosuggestions
 
+# Install my own command
+brew install cubedcard/flip/flip
+
 echo "==> Running post-install setup..."
 
 # fzf shell integration
