@@ -1,5 +1,6 @@
 # --- completion ---
 autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # --- plugins ---
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -28,6 +29,10 @@ export NVM_DIR="$HOME/.nvm"
 command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
 export BROWSER=w3m
+
+# --- colors ---
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # --- aliases ---
 alias v='nvim'
