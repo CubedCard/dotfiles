@@ -34,22 +34,22 @@ echo "==> Creating symlinks..."
 
 mkdir -p ~/.config
 
-ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
-ln -sf ~/dotfiles/starship/.config/starship.toml ~/.config/starship.toml
-ln -sf ~/dotfiles/zshrc/.zshrc ~/.zshrc
+ln -sf "$(pwd)/tmux/.tmux.conf" ~/.tmux.conf
+ln -sf "$(pwd)/starship/.config/starship.toml" ~/.config/starship.toml
+ln -sf "$(pwd)/zshrc/.zshrc" ~/.zshrc
 
 # nvim: link the whole config directory
 if [ -L ~/.config/nvim ]; then
     echo "     nvim symlink already exists, skipping"
 else
-    ln -sf ~/dotfiles/nvim/.config/nvim ~/.config/nvim
+    ln -sf "$(pwd)/nvim/.config/nvim" ~/.config/nvim
 fi
 
 # fastfetch: link the whole config directory
 if [ -L ~/.config/fastfetch ]; then
     echo "     fastfetch symlink already exists, skipping"
 else
-    ln -sf ~/dotfiles/fastfetch/.config/fastfetch ~/.config/fastfetch
+    ln -sf "$(pwd)/fastfetch/.config/fastfetch" ~/.config/fastfetch
 fi
 
 echo ""
