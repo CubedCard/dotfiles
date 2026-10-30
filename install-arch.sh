@@ -56,6 +56,9 @@ link_dir "$DOTFILES/fastfetch/.config/fastfetch" ~/.config/fastfetch
 # hypr: link the whole config directory (Omarchy Hyprland overrides + Rectangle-style snapping)
 link_dir "$DOTFILES/hypr/.config/hypr" ~/.config/hypr
 
+# foot: link the whole config directory
+link_dir "$DOTFILES/foot/.config/foot" ~/.config/foot
+
 echo ""
 echo "Done! Next steps:"
 echo "  1. Install 'flip' (cubedcard/flip) manually; it was a Homebrew tap and isn't packaged for pacman"
