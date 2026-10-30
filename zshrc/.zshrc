@@ -3,7 +3,10 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # --- plugins ---
-source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+for f in /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
+         "$(command -v brew >/dev/null && brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; do
+  [ -f "$f" ] && source "$f" && break
+done
 bindkey '^F' autosuggest-accept
 
 # --- prompt ---
@@ -16,15 +19,21 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # --- languages ---
-export JAVA_HOME=$(/usr/libexec/java_home)
+if [ -x /usr/libexec/java_home ]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+  export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+elif [ -d /usr/lib/jvm/default ]; then
+  export JAVA_HOME=/usr/lib/jvm/default
+fi
 export GOPATH="$HOME/go"
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && source "$(brew --prefix)/opt/nvm/nvm.sh"
-[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && source "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"
+if command -v brew >/dev/null; then
+  [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && source "$(brew --prefix)/opt/nvm/nvm.sh"
+  [ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && source "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"
+fi
 
 command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
