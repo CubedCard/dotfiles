@@ -59,3 +59,15 @@ snap("MINUS", "smaller", "Make window smaller")
 snap("EQUAL", "larger", "Make window larger")
 o.bind("CTRL + ALT + SUPER + LEFT", "Move window to previous monitor", hl.dsp.window.move({ monitor = "-1" }))
 o.bind("CTRL + ALT + SUPER + RIGHT", "Move window to next monitor", hl.dsp.window.move({ monitor = "+1" }))
+
+-- "Minimize": hide window in a separate special workspace without closing it
+o.bind("SUPER + M", "Minimize window", hl.dsp.window.move({ workspace = "special:minimized", follow = false }))
+o.bind("SUPER + ALT + M", "Toggle minimized windows", hl.dsp.workspace.toggle_special("minimized"))
+
+-- Alt-Tab style window switching on SUPER+TAB (replaces next/previous workspace)
+hl.unbind("SUPER + TAB")
+hl.unbind("SUPER + SHIFT + TAB")
+o.bind("SUPER + TAB", "Focus on next window", hl.dsp.window.cycle_next())
+o.bind("SUPER + SHIFT + TAB", "Focus on previous window", hl.dsp.window.cycle_next({ next = false }))
+o.bind("SUPER + TAB", "Reveal active window on top", hl.dsp.window.bring_to_top())
+o.bind("SUPER + SHIFT + TAB", "Reveal active window on top", hl.dsp.window.bring_to_top())
