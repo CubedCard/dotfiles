@@ -19,8 +19,12 @@
 -- This example changes SUPER+SPACE from the launcher to the Omarchy root menu.
 hl.unbind("SUPER + RETURN")
 hl.unbind("SUPER + SLASH")
-o.bind("SUPER + SLASH", "Terminal", "open terminal")
+o.bind("SUPER + SLASH", "Terminal", { omarchy = "terminal" })
 -- o.bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle root")
+
+-- Unbind SUPER+MINUS (was: expand window left) to open the default browser.
+hl.unbind("SUPER + code:20")
+o.bind("SUPER + code:20", "Browser", { omarchy = "browser" })
 
 -- Disable a default binding without replacing it.
 -- hl.unbind("SUPER + SHIFT + B")
